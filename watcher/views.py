@@ -14,6 +14,7 @@ class StartWatchingView(View):
 			to='+12533328365', 
 			from_='+12532851538',
 			body=msg)
+		return HttpResponse()
 
 	def post(self, request):
 		number = request.POST['cell']
