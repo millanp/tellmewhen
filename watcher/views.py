@@ -8,13 +8,12 @@ from twilio.rest import Client
 
 # Create your views here.
 class StartWatchingView(View):
-	def get(self, request):
-		print self.msg
+	def get(self, request, msg=None):
 		client = Client()
 		message = client.messages.create(
 			to='+12533328365', 
 			from_='+12532851538',
-			body=self.msg)
+			body=msg)
 
 	def post(self, request):
 		number = request.POST['cell']
