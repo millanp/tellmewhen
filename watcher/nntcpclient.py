@@ -24,7 +24,6 @@ def show_detection_result(msg, f, req, show_image=True):
         display_detection_result(msg, f, req)
     return
 
-
 def get_wins(f, req):
     img = cv2.imread(f)
     whole_image_p = len(req.windows) == 0
@@ -125,9 +124,6 @@ def mkrequest(args):
     # Sub-windows are not yet handled by the server
     # check if query should only apply to certain sub-windows of the image
     windows = []
-    if 'preprocess' in args:
-        if 'findface' == args['preprocess']:
-            windows = preprocess(imfile_name, args)
     for x, y, w, h in windows:
         nnrect = req.windows.add()
         [nnrect.left, nnrect.top, nnrect.right, nnrect.bottom] = map(int,
@@ -136,7 +132,7 @@ def mkrequest(args):
                                                                       x+w,
                                                                       y+h])
 
-    return req, query, imfile_name
+    return req, query
 
 
 def remote_exec(req, args):
@@ -254,7 +250,7 @@ def print_face_distances(results, reqs, args, namelen=5, paddedlen=20):
 
 def process_image(args):
     # marshall argument values
-    req, query, imfile_name = mkrequest(args)
+    req, query = mkrequest(args)
     # send the request
     delta_t, result_msg = remote_exec(req, args)
     # render the results
@@ -269,7 +265,7 @@ def report_face_distances(args):
     reqs = {}
     for img in imgs:
         args['img'] = img
-        req, query, imfile_name = mkrequest(args)
+        req, query = mkrequest(args)
         delta_t, result_msg = remote_exec(req, args)
         results[img] = result_msg
         reqs[img] = req
