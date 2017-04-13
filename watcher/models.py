@@ -15,6 +15,10 @@ class WatcherManager(models.Manager):
         watcher.set_stream_url()
         return watcher
 
+    def check_for_new_objects(self):
+        for watcher in self.all():
+            watcher.text_if_necessary()
+
 class Watcher(models.Model):
     youtube_url = models.CharField(max_length=200, default="")
     stream_url = models.CharField(max_length=1000, default="")
@@ -36,3 +40,7 @@ class Watcher(models.Model):
         for result in msg.detection_result[0].cresults:
             objects_in_frame.append(result.most_likely_class_name)
         return objects_in_frame
+
+    def text_if_necessary(self):
+        print 'run on pk='+str(self.pk)
+        pass
