@@ -4,7 +4,7 @@ import os
 import redis
 from rq import Worker, Queue, Connection
 
-
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "tellmewhen.settings")
 sched = BlockingScheduler()
 listen = ['high', 'default', 'low']
 
